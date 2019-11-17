@@ -1,92 +1,89 @@
 package com.company;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Scanner;
 import java.util.regex.Pattern;
 
-abstract class Person {
+abstract class Person implements Serializable {
     private String name;
     private String dateOfBirth;
     private String email;
     private String phoneNumber;
     private String address;
 
-    private static Scanner scanner = new Scanner(System.in);
-    public void setName(String name) {
+    boolean setName(String name) {
         String regexName = "^[A-Z][a-z]+ [A-Z][a-z]+$";
-//        String name = scanner.nextLine();
-//
-//        while (true) {
-//            try{
-//               if (!Pattern.matches(regexName, name)) {
-//                    throw new IllegalArgumentException("Invalid name");
-//                }
-//                this.name = name;
-//                break;
-//            }catch (IllegalArgumentException e){
-//                System.err.println(e.getMessage());
-//                System.out.println("Name: ");
-//                name = scanner.nextLine();
-//            }
-//        }
         if (!Pattern.matches(regexName, name)) {
-            throw new IllegalArgumentException("Invalid name");
+            System.err.println("Invalid name.");
+            return false;
         }
         this.name = name;
+        return true;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
-        //Set preferred date format
-        //e.g. MM-dd-yyyy, MM.dd.yyyy ...
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        simpleDateFormat.setLenient(false);
-        //create Date object
-        //parse the string into date
+    boolean setDateOfBirth(String dateOfBirth) {
         try {
+            //Set preferred date format
+            //e.g. MM-dd-yyyy, MM.dd.yyyy ...
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            simpleDateFormat.setLenient(false);
+            //create Date object
+            //parse the string into date
             Date date = simpleDateFormat.parse(dateOfBirth);
         }catch (ParseException e){
-            throw new IllegalArgumentException("Invalid date");
+            System.err.println("Invalid date.");
+            return false;
         }
         this.dateOfBirth = dateOfBirth;
+        return true;
     }
 
-    public void setEmail(String email) {
+    boolean setEmail(String email) {
         String regexEmail = "^\\w+[-_.]?\\w*@([a-zA-Z-]+\\.)+[a-zA-Z]+$";
         if (!Pattern.matches(regexEmail, email)) {
-            throw new IllegalArgumentException("Invalid email");
+            System.err.println("Invalid email.");
+            return false;
         }
         this.email = email;
-
+        return true;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
+    boolean setPhoneNumber(String phoneNumber) {
+        String regexPhone = "^\\d+$";
+        if (!Pattern.matches(regexPhone, phoneNumber)){
+            System.err.println("Invalid phone.");
+            return false;
+        }
         this.phoneNumber = phoneNumber;
+        return true;
     }
 
-    public void setAddress(String address) {
+    void setAddress(String address) {
         this.address = address;
     }
 
-    public String getEmail() {
+    String getEmail() {
         return email;
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public String getAddress() {
+    String getAddress() {
         return address;
     }
 
-    public String getPhoneNumber() {
+    String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public String getDateOfBirth() {
+    String getDateOfBirth() {
         return dateOfBirth;
     }
+
+    abstract void printInfo();
 
 }

@@ -2,34 +2,42 @@ package com.company;
 
 import java.util.regex.Pattern;
 
-public class Student extends Person {
+class Student extends Person {
     private String id;
     private String batch;
 
-    public void setId(String id){
+    boolean setId(String id){
         String regexId = "^(GT|GC)\\d{5}$";
         if (!Pattern.matches(regexId, id)){
-            throw new IllegalArgumentException("Invalid student id");
+            System.err.println("Invalid ID.");
+            return false;
         }
         this.id = id;
+        return true;
     }
 
-    public void setBatch(String batch) {
+    boolean setBatch(String batch) {
+        String regexBatch = "^(CS|ME|FA|BA|EEIT)\\d{4}$";
+        if (!Pattern.matches(regexBatch, batch)) {
+            System.err.println("Invalid batch.");
+            return false;
+        }
         this.batch = batch;
+        return true;
     }
 
-    public String getId() {
+    String getId() {
         return id;
     }
 
-    public String getBatch() {
+    String getBatch() {
         return batch;
     }
 
-    //TODO: modify with output stream
-    public void printInfo(){
-        System.out.printf("ID: %s\t|\tName: %s\t|\tDate of birth: %s\t|\tEmail: %s\t|\tPhone: %s\t|\tAddress: %s\t|\tBatch: %s\n",
-                this.getId(), this.getName(), this.getDateOfBirth(), this.getDateOfBirth(), this.getEmail(),
-                this.getPhoneNumber(), this.getAddress(), this.getBatch());
+    void printInfo(){
+        String output = String.format("%1$-30s|%2$-30s|%3$-30s|%4$-30s|%5$-30s|%6$-30s|%7$-30s\n",
+                this.getId(), this.getName(), this.getDateOfBirth(), this.getEmail(),
+            this.getPhoneNumber(), this.getAddress(), this.getBatch());
+        System.out.print(output);
     }
 }

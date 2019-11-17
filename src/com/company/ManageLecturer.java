@@ -3,32 +3,32 @@ package com.company;
 import java.io.*;
 import java.util.*;
 
-class ManageStudent extends ManagePerson{
-    private static String path_student= "D:\\3rd year\\Java OOP VGU\\Assignment\\src\\com\\company\\data\\student.ser";
-    private HashMap<String, Student> setOfStudent = new HashMap<>();
-    
+class ManageLecturer extends ManagePerson{
+    private static String path_lecturer = "D:\\3rd year\\Java OOP VGU\\Assignment\\src\\com\\company\\data\\lecturer.ser";
+    private HashMap<String, Lecturer> setOfLecturer = new HashMap<>();
+
     @Override
     void viewAll(){
-        for (String person_name : setOfStudent.keySet()){
-            setOfStudent.get(person_name).printInfo();
+        for (String person_name : setOfLecturer.keySet()){
+            setOfLecturer.get(person_name).printInfo();
         }
     }
 
     @Override
-    void addNew(){
+    void addNew() {
         Scanner scanner = new Scanner(System.in);
-        Student student = new Student();
+        Lecturer lecturer = new Lecturer();
         String input;
 
         //input id \w validation
         System.out.print("ID: ");
         input = scanner.nextLine();
-        while (setOfStudent.containsKey(input)){
+        while (setOfLecturer.keySet().contains(input)){
             System.err.println("ID already exists. Enter again.");
             System.out.print("ID: ");
             input = scanner.nextLine();
         }
-        while (!student.setId(input)){
+        while (!lecturer.setId(input)){
             System.out.print("ID: ");
             input = scanner.nextLine();
         }
@@ -36,7 +36,7 @@ class ManageStudent extends ManagePerson{
         //input name \w validation
         System.out.print("Name: ");
         input = scanner.nextLine();
-        while (!student.setName(input)){
+        while (!lecturer.setName(input)){
             System.out.print("Name: ");
             input = scanner.nextLine();
         }
@@ -44,7 +44,7 @@ class ManageStudent extends ManagePerson{
         //input date of birth \w validation
         System.out.print("Date of birth (dd/mm/yyyy): ");
         input = scanner.nextLine();
-        while (!student.setDateOfBirth(input)){
+        while (!lecturer.setDateOfBirth(input)){
             System.out.print("Date of birth (dd/mm/yyyy): ");
             input = scanner.nextLine();
         }
@@ -52,7 +52,7 @@ class ManageStudent extends ManagePerson{
         //input email \w validation
         System.out.print("Email: ");
         input = scanner.nextLine();
-        while (!student.setEmail(input)){
+        while (!lecturer.setEmail(input)){
             System.out.print("Email: ");
             input = scanner.nextLine();
         }
@@ -60,29 +60,29 @@ class ManageStudent extends ManagePerson{
         //input phone, address and batch
         System.out.print("Phone: ");
         input = scanner.nextLine();
-        while (!student.setPhoneNumber(input)){
+        while (!lecturer.setPhoneNumber(input)){
             System.out.print("Phone: ");
             input = scanner.nextLine();
         }
         System.out.print("Address: ");
-        student.setAddress(scanner.nextLine());
+        lecturer.setAddress(scanner.nextLine());
 
-        System.out.print("Batch: ");
+        System.out.print("Department: ");
         input = scanner.nextLine();
-        while (!student.setBatch(input)){
-            System.out.print("Batch: ");
+        while (!lecturer.setDepartment(input)){
+            System.out.print("Department: ");
             input = scanner.nextLine();
         }
 
         //add to set after input info
-        setOfStudent.put(student.getId(), student);
-        System.out.println(student.getName() + " have been added to current list.");
+        setOfLecturer.put(lecturer.getId(), lecturer);
+        System.out.println(lecturer.getName() + " have been added to current list.");
     }
 
     @Override
     void saveToFile(){
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(path_student, false))){
-            out.writeObject(setOfStudent);
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(path_lecturer, false))){
+            out.writeObject(setOfLecturer);
         }catch (IOException e){
             System.err.println(e.getMessage());
         }
@@ -90,8 +90,8 @@ class ManageStudent extends ManagePerson{
 
     @Override
     void readFile() {
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(path_student))){
-            setOfStudent = (HashMap<String, Student>) in.readObject();
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(path_lecturer))){
+            setOfLecturer = (HashMap<String, Lecturer>) in.readObject();
         }catch (IOException | ClassNotFoundException e){
             System.err.print(e.getMessage());
         }
@@ -103,48 +103,48 @@ class ManageStudent extends ManagePerson{
         System.out.print("Enter ID: ");
         Scanner scanner = new Scanner(System.in);
         String updateID = scanner.nextLine();
-        Student tmp_student = setOfStudent.remove(updateID);
-        while (tmp_student == null){
+        Lecturer tmp_lecturer = setOfLecturer.remove(updateID);
+        while (tmp_lecturer == null){
             System.err.println("Student/Lecturer with such id doesn't exist.");
             System.out.print("Enter ID: ");
             updateID = scanner.nextLine();
-            tmp_student = setOfStudent.remove(updateID);
+            tmp_lecturer = setOfLecturer.remove(updateID);
         }
 
-        tmp_student.printInfo();
+        tmp_lecturer.printInfo();
         System.out.println("Type in new data to update. Press Enter to keep the current data.");
 
         System.out.print("ID: ");
         String inputData = scanner.nextLine();
-        while (!inputData.equals("") && !tmp_student.setId(inputData)){
+        while (!inputData.equals("") && !tmp_lecturer.setId(inputData)){
             System.out.print("ID: ");
             inputData = scanner.nextLine();
         }
 
         System.out.print("Name: ");
         inputData = scanner.nextLine();
-        while (!inputData.equals("") && !tmp_student.setName(inputData)){
+        while (!inputData.equals("") && !tmp_lecturer.setName(inputData)){
             System.out.print("Name: ");
             inputData = scanner.nextLine();
         }
 
         System.out.print("Date of birth (dd/mm/yyyy): ");
         inputData = scanner.nextLine();
-        while (!inputData.equals("") && !tmp_student.setDateOfBirth(inputData)){
+        while (!inputData.equals("") && !tmp_lecturer.setDateOfBirth(inputData)){
             System.out.print("Date of birth (dd/mm/yyyy): ");
             inputData = scanner.nextLine();
         }
 
         System.out.print("Email: ");
         inputData = scanner.nextLine();
-        while (!inputData.equals("") && !tmp_student.setEmail(inputData)){
+        while (!inputData.equals("") && !tmp_lecturer.setEmail(inputData)){
             System.out.print("Email: ");
             inputData = scanner.nextLine();
         }
 
         System.out.print("Phone: ");
         inputData = scanner.nextLine();
-        while (!inputData.equals("") && !tmp_student.setPhoneNumber(inputData)){
+        while (!inputData.equals("") && !tmp_lecturer.setPhoneNumber(inputData)){
             System.out.print("Phone: ");
             inputData = scanner.nextLine();
         }
@@ -152,44 +152,44 @@ class ManageStudent extends ManagePerson{
         System.out.print("Address: ");
         inputData = scanner.nextLine();
         if (!inputData.equals(""))
-            tmp_student.setAddress(inputData);
+            tmp_lecturer.setAddress(inputData);
 
-        System.out.print("Batch: ");
+        System.out.print("Department: ");
         inputData = scanner.nextLine();
-        while (!inputData.equals("") && !tmp_student.setBatch(inputData)){
-            System.out.print("Batch: ");
+        while (!inputData.equals("") && !tmp_lecturer.setDepartment(inputData)){
+            System.out.print("Department: ");
             inputData = scanner.nextLine();
         }
 
-        setOfStudent.put(tmp_student.getId(), tmp_student);
-    }
-
-    @Override
-    void delete(){
-        System.out.print("Enter ID: ");
-        String deleteID = new Scanner(System.in).nextLine();
-
-        Person deletedPerson = setOfStudent.remove(deleteID);
-        if (deletedPerson == null){
-            System.err.println("Student/Lecturer with such id doesn't exist.");
-        }else {
-            System.out.println(deletedPerson.getName() + " has been deleted from the system.");
-        }
+        setOfLecturer.put(tmp_lecturer.getId(), tmp_lecturer);
     }
     
     @Override
     void searchFor(){
         //create new map with name as key
-        SortedMap<String, Person> setOfStudent_nameAsKey = new TreeMap<>();
-        for (String key : setOfStudent.keySet()){
-            setOfStudent_nameAsKey.put(setOfStudent.get(key).getName(), setOfStudent.get(key));
+        SortedMap<String, Person> setOfLecturer_nameAsKey = new TreeMap<>();
+        for (String key : setOfLecturer.keySet()){
+            setOfLecturer_nameAsKey.put(setOfLecturer.get(key).getName(), setOfLecturer.get(key));
         }
 
         //https://www.geeksforgeeks.org/trie-insert-and-search/
         System.out.print("Enter name: ");
         String searchName = new Scanner(System.in).nextLine();
-        for (Map.Entry<String, Person> entry : this.filterPrefix(setOfStudent_nameAsKey, searchName).entrySet()){
+        for (Map.Entry<String, Person> entry : this.filterPrefix(setOfLecturer_nameAsKey, searchName).entrySet()){
             entry.getValue().printInfo();
+        }
+    }
+    
+    @Override
+    void delete(){
+        System.out.print("Enter ID: ");
+        String deleteID = new Scanner(System.in).nextLine();
+
+        Person deletedPerson = setOfLecturer.remove(deleteID);
+        if (deletedPerson == null){
+            System.err.println("Student/Lecturer with such id doesn't exist.");
+        }else {
+            System.out.println(deletedPerson.getName() + " has been deleted from the system.");
         }
     }
 }

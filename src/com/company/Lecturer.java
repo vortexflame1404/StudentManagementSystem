@@ -2,31 +2,39 @@ package com.company;
 
 import java.util.regex.Pattern;
 
-public class Lecturer extends Person {
+class Lecturer extends Person {
     private String id;
     private String department;
 
-    public void setId(String id) {
+    boolean setId(String id) {
         if (!Pattern.matches("^\\d{8}$", id)){
-            throw new IllegalArgumentException("Invalid lecture id");
+            System.err.println("Invalid lecturer's ID.");
+            return false;
         }
         this.id = id;
+        return true;
     }
 
-    public void setDepartment(String department) {
+    boolean setDepartment(String department) {
         if (!Pattern.matches("^[A-Z][a-z]+$", department)){
-            throw new IllegalArgumentException("Invalid Department");
+            System.err.println("Invalid department.");
+            return false;
         }
         this.department = department;
+        return true;
     }
 
-    public String getId() {
+    String getId() {
         return id;
     }
 
-    public String getDepartment() {
+    String getDepartment() {
         return department;
     }
 
-
+    void printInfo(){
+        String output = String.format("%1$-40s|%2$-40s|%3$-40s|%4$-40s|%5$-40s|%6$-40s|%7$-40s\n",this.getId(), this.getName(), this.getDateOfBirth(), this.getEmail(),
+                this.getPhoneNumber(), this.getAddress(), this.getDepartment());
+        System.out.print(output);
+    }
 }
